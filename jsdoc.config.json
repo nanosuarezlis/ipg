@@ -1,0 +1,26 @@
+{
+    "source": {
+      "include": [
+        "src",
+        "README.md"
+      ],
+      "exclude": [
+        "node_modules"
+      ]
+    },
+    "opts": {
+      "recurse": true,
+      "destination": "docs"
+    },
+    "plugins": [
+      "plugins/markdown"
+    ],
+    "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": false,
+      "default": {
+        "outputSourceFiles": true
+      }
+    }
+  }
+  
