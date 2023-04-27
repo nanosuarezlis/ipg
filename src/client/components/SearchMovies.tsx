@@ -6,7 +6,8 @@ function SearchMovies() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const response = await fetch(`/movies?query=${query}`);
+    const response = await fetch(`http://localhost:3001/movies?query=${query}`);
+    console.info(response)
     const data = await response.json();
     setResults(data.results);
   }
