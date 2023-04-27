@@ -1,3 +1,14 @@
+/**
+ * @file MovieList.tsx
+ * @desc Componente de lista de películas que muestra una lista de películas.
+ * @version 1.0.0
+ * @license MIT
+ * 
+ * @created 2023-04-27
+ * @updated 2023-04-27
+ * @author Nano Suárez
+ */
+
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -14,6 +25,23 @@ import {
 import { TrendingUp as TrendingUpIcon, Star as StarIcon } from '@material-ui/icons';
 import styled from 'styled-components';
 
+/**
+ * @typedef {Object} Movie
+ * @property {boolean} adult - Indica si la película es para mayores de 18 años.
+ * @property {?string} backdrop_path - La URL de la imagen de fondo de la película.
+ * @property {number[]} genre_ids - Los IDs de los géneros de la película.
+ * @property {number} id - El ID de la película.
+ * @property {string} original_language - El idioma original de la película.
+ * @property {string} original_title - El título original de la película.
+ * @property {string} overview - Una descripción general de la película.
+ * @property {number} popularity - La popularidad de la película.
+ * @property {?string} posterUrl - La URL del póster de la película.
+ * @property {string} release_date - La fecha de lanzamiento de la película.
+ * @property {string} title - El título de la película.
+ * @property {boolean} video - Indica si la película tiene un video asociado.
+ * @property {number} vote_average - El promedio de votos de la película.
+ * @property {number} vote_count - El número de votos para la película.
+ */
 interface Movie {
   adult: boolean;
   backdrop_path: string | null;
@@ -31,10 +59,20 @@ interface Movie {
   vote_count: number;
 }
 
+/**
+ * Propiedades para el componente MovieList
+ * @typedef {Object} MovieListProps
+ * @property {Movie[]} movies - Lista de películas a mostrar.
+ */
 interface MovieListProps {
   movies: Movie[];
 }
 
+/**
+ * Custom styles for MovieList component
+ * @param {Object} theme - Material UI theme object
+ * @return {Object} - Custom styles
+ */
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '80%',
@@ -59,6 +97,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Lista de películas estilizada.
+ */
 const StyledListItem = styled(ListItem)`
   transition: background-color 0.2s ease;
   &:hover {
@@ -66,6 +107,9 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
+/**
+ * Overview aplicando el truncate para cuando tiene más de 200 caracteres el overview.
+ */
 const TruncatedOverview = styled(Typography)`
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -73,6 +117,16 @@ const TruncatedOverview = styled(Typography)`
   overflow: hidden;
 `;
 
+/**
+ * Representa una lista de películas.
+ * 
+ * @param {object} props - Los props para el componente.
+ * @param {Movie[]} props.movies - La lista de películas a mostrar.
+ * @returns {JSX.Element} - La lista de películas renderizada.
+ * 
+ * @example
+ * <MovieList movies={movies} />
+ */
 function MovieList(props: MovieListProps) {
   const classes = useStyles();
   const { movies } = props;
