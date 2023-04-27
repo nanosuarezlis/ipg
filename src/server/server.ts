@@ -11,7 +11,7 @@ app.get('/movies', async (req, res) => {
   console.log(`Received query: ${query}`);
 
   try {
-    const result = await fetchData(query);
+    const result = await fetchData({ query });
     console.log(result)
     res.send(result);
   } catch (err) {
