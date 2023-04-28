@@ -42,7 +42,7 @@ import styled from 'styled-components';
  * @property {number} vote_average - El promedio de votos de la película.
  * @property {number} vote_count - El número de votos para la película.
  */
-interface Movie {
+export interface Movie {
   adult: boolean;
   backdrop_path: string | null;
   genre_ids: number[];
