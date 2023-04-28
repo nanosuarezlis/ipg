@@ -9,13 +9,16 @@
     "start": "yarn start:server-webpack & yarn start:client",
     "start:client": "webpack-dev-server --mode development --config webpack.client.config.js --open",
     "start:server": "ts-node --config webpack.server.config.js src/server/server.ts",
+    "stop:server": "pkill -f 'ts-node --config webpack.server.config.js src/server/server.ts'",
     "start:server-webpack": "webpack --config webpack.server.config.js && node dist/server.js",
     "start:servernpm": "tsc && node dist/server/server/server.js",
     "build:client": "webpack --config ./webpack/client.config.js --mode production",
     "build:server": "webpack --config ./webpack/server.config.js --mode production",
     "build": "yarn build:client && yarn build:server",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "type-check": "tsc --noEmit --jsx react"
+    "type-check": "tsc --noEmit --jsx react",
+    "test:server": "jest",
+    "hi": "jest /Users/xackal/develop/nanoGlobal/__tests__/server.test.ts"
   },
   "dependencies": {
     "@babel/core": "^7.21.4",
@@ -35,6 +38,7 @@
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
+    "pkill": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "stream-http": "^3.2.0",
@@ -48,17 +52,33 @@
     "@types/cors": "^2.8.13",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.1",
     "@types/node": "^18.16.1",
     "@types/node-fetch": "^2.6.3",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.5.0",
     "jsdoc": "^4.0.2",
     "stream-browserify": "^3.0.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.5.0",
     "util": "^0.12.5"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   }
 }

@@ -15,6 +15,26 @@ import MovieList from './MovieList';
 import SearchIcon from '@material-ui/icons/Search';
 
 /**
+ * Estilos básicos para la lista.
+ */
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+/**
+ * Estilos básicos para el input.
+ */
+const StyledInput = styled(Input)`
+  && {
+    margin-right: 10px;
+  }
+`;
+
+/**
  * Componente de búsqueda de películas.
  * 
  * @component
@@ -48,25 +68,5 @@ function SearchMovies() {
     </div>
   );
 }
-
-/**
- * Estilos básicos para la lista.
- */
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-/**
- * Estilos básicos para el input.
- */
-const StyledInput = styled(Input)`
-  && {
-    margin-right: 10px;
-  }
-`;
 
 export default SearchMovies;

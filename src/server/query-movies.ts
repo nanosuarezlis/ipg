@@ -25,7 +25,7 @@ if (!apiKey) {
  * @param {string} posterPath - The path to the movie poster image.
  * @returns {Promise<string>} The URL for the movie poster image.
  */
-async function getMoviePosterUrl(posterPath: string): Promise<string> {
+export async function getMoviePosterUrl(posterPath: string): Promise<string> {
   const apiUrl = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
   const response = await fetch(apiUrl);
   const data = await response.json();
@@ -47,7 +47,7 @@ type QueryParams = {
  * @throws Will throw an error if the API request fails.
  */
 export async function fetchData(query: QueryParams): Promise<any> {
-  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`;
+  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query.query}`;
   const response = await fetch(apiUrl);
   
   if (response.status !== 200) {

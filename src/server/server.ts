@@ -8,10 +8,10 @@ import cors from 'cors';
 import { fetchData } from './query-movies';
 
 /** The port number for the server to listen on. */
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 0;
 
 /** The Express app instance. */
-const app = express();
+export const app = express();
 
 /** Enable cross-origin resource sharing (CORS). */
 app.use(cors());
@@ -35,15 +35,28 @@ interface QueryParams {
  * @returns {Promise} A promise that resolves to the movie data fetched from the API.
  */
 app.get('/movies', async (req: Request, res: Response) => {
-  const query = (req.query as QueryParams).query;
-  console.log(`Received query: ${query}`);
-
   try {
-    const result = await fetchData(query);
-    console.log(result)
-    res.send(result);
+    if (!req.query) {
+      res.status(401).send({ error: 'No query param' });
+      return;
+    }
+  
+    const queryParams = req.query as QueryParams;
+    const query = queryParams.query;
+    
+    if (!query) {
+      res.status(400).send({ error: 'Invalid query parameter' });
+      return;
+    }
+
+    const result = await fetchData({ query });
+    if (!res.headersSent) { // Verifica si los headers ya han sido enviados
+      res.send(result);
+    }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    if (!res.headersSent) { // Verifica si los headers ya han sido enviados
+      res.status(500).send({ error: err.message });
+    }
   }
 });
 
@@ -51,3 +64,8 @@ app.get('/movies', async (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+// app.post('/stop-server', (req, res) => {
+//   res.send('Stopping server');
+//   process.exit(0);
+// });
