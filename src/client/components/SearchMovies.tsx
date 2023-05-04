@@ -35,6 +35,8 @@ const StyledInput = styled(Input)`
   }
 `;
 
+const SEARCH_QUERY_KEY = 'search_query';
+
 /**
  * Componente de búsqueda de películas.
  * 
@@ -47,6 +49,18 @@ export default function SearchMovies() {
   const [movies, setMovies] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  
+  useEffect(() => {
+    const searchQuery = localStorage.getItem(SEARCH_QUERY_KEY);
+    if (searchQuery) {
+      setQuery(searchQuery);
+      handleSearch(searchQuery, 1, 20).then(setResponse);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(SEARCH_QUERY_KEY, query);
+  }, [query]);
 
   const setResponse = (response) => {
     const { results, total_pages, total_results } = response;

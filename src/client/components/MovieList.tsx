@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 import { TrendingUp as TrendingUpIcon, Star as StarIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import MovieCard from './VoteMovie';
+import MovieCard from './voteMovie';
 
 
 /**
@@ -144,7 +144,7 @@ function MovieList(props: MovieListProps) {
               
               <Grid item xs={2}>
                 <ListItemAvatar>
-                  <Avatar src={movie.posterUrl} />
+                  <Avatar src={movie.posterUrl}/>
                 </ListItemAvatar>
                 <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id}>
                   <MovieCard movie={movie} />

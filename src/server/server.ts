@@ -41,20 +41,7 @@ interface QueryParams {
 app.get('/movies', async (req: Request, res: Response) => {
   
   try {
-    
     const { query, page = "1", pageSize = "20" } = req.query as QueryParams;
-  
-    console.log("************")
-    console.log(query)
-    console.log(page)
-    console.log(page)
-    console.log("************")
-    // if (!query) {
-    //   res.status(400).send({ error: 'Invalid query parameter' });
-    // }
-
-    console.log("***************************")
-
     const result = await fetchData({ query, page, pageSize });
     const { total_results: totalResults, total_pages: totalPages } = result;
 

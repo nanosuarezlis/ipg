@@ -39,16 +39,19 @@ export const UserProvider = ({ children }) => {
       userApiId = guest_session_id;
       localStorage.setItem(storageKey, userApiId);
     }
-    
-    // debugger
+
+    // Get voted movies from localStorage
+    const votedMovies = JSON.parse(localStorage.getItem('votedMovies')) || [];
 
     dispatch({
       type: 'SET_USER_IDS',
       payload: {
         userId,
-        userApiId
+        userApiId,
+        votedMovies // add votedMovies to the payload
       }
     });
+
   };
 
   return (
