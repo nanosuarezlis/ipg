@@ -35,12 +35,16 @@ const StyledInput = styled(Input)`
   }
 `;
 
+interface SearchMoviesProps {
+  guestUserId: string;
+}
+
 /**
  * Componente de búsqueda de películas.
  * 
  * @component
  */
-export default function SearchMovies() {
+export default function SearchMovies({ guestUserId }: SearchMoviesProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [totalResults, setTotalResults] = useState(0);
   const [query, setQuery] = useState('');
@@ -96,9 +100,7 @@ export default function SearchMovies() {
   return (
     <div>
       <StyledForm onSubmit={handleSubmit}>
-        {/* <StyledInput ref={inputRef} type="text" value={query} onChange={(event) => setQuery(event.target.value)} /> */}
         <StyledInput inputRef={(input) => inputRef.current = input} type="text" value={query} onChange={(event) => setQuery(event.target.value)} />
-
         <Button variant="contained" color="primary" type="submit"><SearchIcon /></Button>
       </StyledForm>
       <MovieList movies={movies} />

@@ -24,6 +24,8 @@ import {
 } from '@material-ui/core';
 import { TrendingUp as TrendingUpIcon, Star as StarIcon } from '@material-ui/icons';
 import styled from 'styled-components';
+import MovieCard from './voteMovie';
+
 
 /**
  * @typedef {Object} Movie
@@ -140,13 +142,16 @@ function MovieList(props: MovieListProps) {
           <StyledListItem key={movie.id} className={classes.row}>
             <Grid container spacing={2} alignItems="center">
               
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <ListItemAvatar>
                   <Avatar src={movie.posterUrl} />
                 </ListItemAvatar>
+                <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id}>
+                  <MovieCard movie={movie} />
+                </div>
               </Grid>
               
-              <Grid item xs={8}>
+              <Grid item xs={7}>
                 <ListItemText
                   primary={movie.title}
                 />

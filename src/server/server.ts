@@ -5,7 +5,7 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import cors from 'cors';
-import { fetchData } from './query-movies';
+import { fetchData, createNewGuest, vote } from './api-modules';
 
 /** The port number for the server to listen on. */
 const port = process.env.PORT || 3001;
@@ -68,12 +68,22 @@ app.get('/movies', async (req: Request, res: Response) => {
   }
 });
 
+app.get('/new_guest', async (req: Request, res: Response) => {
+  try {
+    const data = await createNewGuest()
+    res.status(200).send(data);
+  } catch (error) {
+    console.error('Error fetching new guest session ID:', error);
+    res.status(500).send('Error fetching new guest session ID');
+  }
+});
+
+app.post('/vote', function(req, res) {
+  vote(req, res);
+});
+
+
 /** Start the server. */
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-// app.post('/stop-server', (req, res) => {
-//   res.send('Stopping server');
-//   process.exit(0);
-// });

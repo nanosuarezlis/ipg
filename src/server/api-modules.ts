@@ -43,6 +43,47 @@ export async function getMoviePosterUrl(posterPath: string): Promise<string> {
 }
 
 /**
+ * Returns the URL for a given movie poster path, using The Movie Database API configuration.
+ * @async
+ * @function
+ * @param {string} posterPath - The path to the movie poster image.
+ * @returns {Promise<string>} The URL for the movie poster image.
+ */
+export async function createNewGuest(): Promise<string> {
+  const apiUrl = `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`;
+  const response = await fetch(apiUrl);
+  const data = await response.json();
+  
+  return data;
+}
+
+export async function vote(req, res) {
+  const movieId = req.query.id;
+  const rating = req.query.rating;
+  const guestUser = req.query.guestUser;
+
+  const url = `https://api.themoviedb.org/3/movie/${movieId}/rating?api_key=${apiKey}&guest_session_id=${guestUser}`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({
+      value: rating
+    })
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    res.send(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error al votar');
+  }
+}
+
+/**
  * Fetches movie data from The Movie Database API.
  * @async
  * @function
