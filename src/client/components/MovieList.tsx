@@ -138,7 +138,7 @@ function MovieList(props: MovieListProps) {
   return (
     <Paper className={classes.root}>
       <List>
-        {movies.map((movie) => (
+        {movies && movies.map((movie) => (
           <StyledListItem key={movie.id} className={classes.row}>
             <Grid container spacing={2} alignItems="center">
               
