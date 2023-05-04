@@ -8,19 +8,22 @@ import cors from 'cors';
 import { fetchData } from './query-movies';
 
 /** The port number for the server to listen on. */
-const port = process.env.PORT || 0;
+const port = process.env.PORT || 3001;
 
 /** The Express app instance. */
 export const app = express();
 
 /** Enable cross-origin resource sharing (CORS). */
 app.use(cors());
+app.use(express.json())
 
 /**
  * Interface representing the query parameters for the '/movies' endpoint.
  */
 interface QueryParams {
   query?: string;
+  page?: string;
+  pageSize?: string;
 }
 
 /**
@@ -32,30 +35,35 @@ interface QueryParams {
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
  * @param {string} req.query.query - The search query.
+ * @param {number} req.query.page - The page number to fetch.
  * @returns {Promise} A promise that resolves to the movie data fetched from the API.
  */
 app.get('/movies', async (req: Request, res: Response) => {
-  try {
-    if (!req.query) {
-      res.status(401).send({ error: 'No query param' });
-      return;
-    }
   
-    const queryParams = req.query as QueryParams;
-    const query = queryParams.query;
+  try {
     
-    if (!query) {
-      res.status(400).send({ error: 'Invalid query parameter' });
-      return;
-    }
+    const { query, page = "1", pageSize = "20" } = req.query as QueryParams;
+  
+    console.log("************")
+    console.log(query)
+    console.log(page)
+    console.log(page)
+    console.log("************")
+    // if (!query) {
+    //   res.status(400).send({ error: 'Invalid query parameter' });
+    // }
 
-    const result = await fetchData({ query });
-    if (!res.headersSent) { // Verifica si los headers ya han sido enviados
-      res.send(result);
-    }
+    console.log("***************************")
+
+    const result = await fetchData({ query, page, pageSize });
+    const { total_results: totalResults, total_pages: totalPages } = result;
+
+    res.status(200).send({ ...result, total_results: totalResults, total_pages: totalPages });
+    res.end();
   } catch (err) {
-    if (!res.headersSent) { // Verifica si los headers ya han sido enviados
+    if (!res.headersSent) { 
       res.status(500).send({ error: err.message });
+      res.end();
     }
   }
 });

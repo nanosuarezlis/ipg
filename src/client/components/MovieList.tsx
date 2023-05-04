@@ -51,7 +51,7 @@ export interface Movie {
   original_title: string;
   overview: string;
   popularity: number;
-  posterUrl: string | null;
+  posterUrl: string;
   release_date: string;
   title: string;
   video: boolean;
@@ -66,6 +66,7 @@ export interface Movie {
  */
 interface MovieListProps {
   movies: Movie[];
+  //results: any[];
 }
 
 /**
@@ -117,6 +118,7 @@ const TruncatedOverview = styled(Typography)`
   overflow: hidden;
 `;
 
+
 /**
  * Representa una lista de películas.
  * 
@@ -137,30 +139,39 @@ function MovieList(props: MovieListProps) {
         {movies.map((movie) => (
           <StyledListItem key={movie.id} className={classes.row}>
             <Grid container spacing={2} alignItems="center">
+              
               <Grid item xs={1}>
                 <ListItemAvatar>
                   <Avatar src={movie.posterUrl} />
                 </ListItemAvatar>
               </Grid>
+              
               <Grid item xs={8}>
                 <ListItemText
                   primary={movie.title}
-                  secondary={
-                    <React.Fragment>
-                      {movie.adult && <Typography variant="caption">+18</Typography>}
-                      <TruncatedOverview variant="body2">
-                      {movie.overview.length > 200 
-                        ? movie.overview.substring(0, 200) + '...' 
-                        : movie.overview}
-                      </TruncatedOverview>
-                    </React.Fragment>
-                  }
+                />
+                <div>
+                  <TruncatedOverview variant="body2">
+                    {movie.overview.length > 200
+                      ? movie.overview.substring(0, 200) + "..."
+                      : movie.overview}
+                  </TruncatedOverview>
+                </div>
+                <ListItemText
+                  primary={movie.adult && +18}
                 />
               </Grid>
+              
               <Grid item xs={3}>
                 <ListItemSecondaryAction>
-                  <Typography className={classes.popularity} variant="caption"><TrendingUpIcon fontSize="small" /> {movie.popularity}</Typography>
-                  <Typography className={classes.average} variant="caption"><StarIcon fontSize="small" /> {movie.vote_average}</Typography>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <Typography className={classes.popularity} variant="caption"><TrendingUpIcon fontSize="small" /> {movie.popularity}</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography className={classes.average} variant="caption"><StarIcon fontSize="small" /> {movie.vote_average}</Typography>
+                    </Grid>
+                  </Grid>
                 </ListItemSecondaryAction>
               </Grid>
             </Grid>
@@ -170,5 +181,6 @@ function MovieList(props: MovieListProps) {
     </Paper>
   );
 }
+
 
 export default MovieList;

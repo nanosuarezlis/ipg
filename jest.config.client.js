@@ -13,14 +13,15 @@
 
 module.exports = {
   testEnvironment: 'jsdom',
-  roots: ['<rootDir>/src', '<rootDir>/__tests__', '<rootDir>/dist'],
+  roots: ['<rootDir>/__tests__'],
   testMatch: ['**/__tests__/**/*.test.tsx'],
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  // setupFilesAfterEnv: ['./jest.setup.js'],
   transform: {
     "^.+\\.jsx?$": "babel-jest",
     "^.+\\.tsx?$": "ts-jest"
   },
   moduleNameMapper: {
     '\\.(css|less)$': 'identity-obj-proxy',
-  },
+  }
 };

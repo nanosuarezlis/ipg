@@ -4,6 +4,7 @@
  */
 
 import dotenv from 'dotenv';
+import fetch from 'node-fetch';
 
 dotenv.config();
 
@@ -16,6 +17,12 @@ const apiKey = process.env.TMDB_API_KEY;
 
 if (!apiKey) {
   throw new Error('API Key must be defined in .env file');
+}
+
+type QueryParams = {
+  query: string;
+  page: string;
+  pageSize: string;
 }
 
 /**
@@ -31,11 +38,8 @@ export async function getMoviePosterUrl(posterPath: string): Promise<string> {
   const data = await response.json();
   const baseUrl = data.images.secure_base_url;
   const posterSize = data.images.poster_sizes[3];
+  
   return `${baseUrl}${posterSize}${posterPath}`;
-}
-
-type QueryParams = {
-  query: string;
 }
 
 /**
@@ -47,13 +51,18 @@ type QueryParams = {
  * @throws Will throw an error if the API request fails.
  */
 export async function fetchData(query: QueryParams): Promise<any> {
-  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query.query}`;
+  console.log(query)
+  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query.query}&page=${query.page}&language=es-ES&page_size=${query.pageSize || "20"}`;
   const response = await fetch(apiUrl);
-  
+
   if (response.status !== 200) {
     throw new Error(`Request failed with status ${response.status}`);
   }
-  
+
+  if (!response) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+
   const data = await response.json();
 
   const moviesWithPosterUrls = await Promise.all(
@@ -63,5 +72,8 @@ export async function fetchData(query: QueryParams): Promise<any> {
     })
   );
 
-  return { ...data, results: moviesWithPosterUrls }
+  console.log(`${moviesWithPosterUrls.length} results for ${query}, pages: ${data.total_pages}, total results: ${data.total_results}`)
+
+  return { ...data, results: moviesWithPosterUrls, total_results: data.total_results, total_pages: data.total_pages };
 }
+

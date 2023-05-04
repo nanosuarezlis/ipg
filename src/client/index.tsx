@@ -21,12 +21,6 @@ const theme = createTheme();
  * @name renderApp
  */
 export const renderApp = () => {
-  console.log("document.getElementById('root'):::::::")
-  console.log(document.getElementById('root'))
-  console.log("*******")
-  console.log(document)
-  console.log("---------")
-
   createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={theme}>
       <React.StrictMode>
