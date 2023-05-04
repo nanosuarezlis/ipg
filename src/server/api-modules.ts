@@ -50,9 +50,13 @@ export async function getMoviePosterUrl(posterPath: string): Promise<string> {
  * @returns {Promise<string>} The URL for the movie poster image.
  */
 export async function createNewGuest(): Promise<string> {
+
   const apiUrl = `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`;
+  console.log(apiUrl)
   const response = await fetch(apiUrl);
   const data = await response.json();
+  console.log("Creating new guest!")
+  console.log(data)
   
   return data;
 }

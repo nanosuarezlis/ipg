@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 import { TrendingUp as TrendingUpIcon, Star as StarIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import MovieCard from './voteMovie';
+import MovieCard from './VoteMovie';
 
 
 /**

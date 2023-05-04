@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import {UserContext} from '../context/UserContext';
 
 interface Movie {
   id: number;
@@ -30,15 +31,23 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
   const classes = useStyles();
   const [voteCount, setVoteCount] = useState(movie.vote_average);
   const [selectedValue, setSelectedValue] = useState<number | ''>(movie.vote_average);
+  const { userId, userApiId } = useContext(UserContext);
 
   const handleVoteClick = async () => {
-    const response = await fetch(`http://localhost:3001/vote?id=${movie.id}&vote=${selectedValue}`, { method: 'POST' });
+    // debugger
+    console.log("Hoooooola")
+    console.log(`http://localhost:3001/vote?id=${movie.id}&rating=${selectedValue}&guestUser=${userApiId}`)
+    const response = await fetch(`http://localhost:3001/vote?id=${movie.id}&rating=${selectedValue}&guestUser=${userApiId}`, { method: 'POST' });
+    // const response = await fetch(`http://localhost:3001/vote?id=${movie.id}&vote=${selectedValue}`, { method: 'POST' });
     const data = await response.json();
     setVoteCount(data.vote_average);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedValue(event.target.value as number | '');
+  };
+
+  const handleSubmitClick = () => {
     handleVoteClick();
   };
 
@@ -50,7 +59,7 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
           <Select
             labelId="vote-label"
             id="vote-select"
-            value={selectedValue}
+            value={Number(selectedValue)}
             onChange={handleSelectChange}
           >
             <MenuItem value=""><em>Not voted yet</em></MenuItem>
@@ -66,6 +75,9 @@ const MovieCard: React.FC<Props> = ({ movie }) => {
             <MenuItem value={10}>10</MenuItem>
           </Select>
         </FormControl>
+        <Button className={classes.button} variant="contained" color="primary" onClick={handleSubmitClick}>
+          Submit
+        </Button>
       </div>
     </div>
   );

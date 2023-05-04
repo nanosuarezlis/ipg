@@ -35,16 +35,12 @@ const StyledInput = styled(Input)`
   }
 `;
 
-interface SearchMoviesProps {
-  guestUserId: string;
-}
-
 /**
  * Componente de búsqueda de películas.
  * 
  * @component
  */
-export default function SearchMovies({ guestUserId }: SearchMoviesProps) {
+export default function SearchMovies() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [totalResults, setTotalResults] = useState(0);
   const [query, setQuery] = useState('');
@@ -65,11 +61,9 @@ export default function SearchMovies({ guestUserId }: SearchMoviesProps) {
       params.append('query', query);
       params.append('page', String(page));
       params.append('pageSize', String(pageSize));
-      // debugger
       const apiUrl = `http://localhost:3001/movies?${params.toString()}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
-      // debugger
       return data;
     } catch (error) {
       return { error: 'An error occurred while fetching data' };
