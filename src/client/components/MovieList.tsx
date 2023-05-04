@@ -138,13 +138,13 @@ function MovieList(props: MovieListProps) {
   return (
     <Paper className={classes.root}>
       <List>
-        {movies.map((movie) => (
+        {movies && movies.map((movie) => (
           <StyledListItem key={movie.id} className={classes.row}>
             <Grid container spacing={2} alignItems="center">
               
               <Grid item xs={2}>
                 <ListItemAvatar>
-                  <Avatar src={movie.posterUrl} />
+                  <Avatar src={movie.posterUrl}/>
                 </ListItemAvatar>
                 <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id}>
                   <MovieCard movie={movie} />

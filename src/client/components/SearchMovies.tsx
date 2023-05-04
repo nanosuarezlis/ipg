@@ -35,22 +35,32 @@ const StyledInput = styled(Input)`
   }
 `;
 
-interface SearchMoviesProps {
-  guestUserId: string;
-}
+const SEARCH_QUERY_KEY = 'search_query';
 
 /**
  * Componente de búsqueda de películas.
  * 
  * @component
  */
-export default function SearchMovies({ guestUserId }: SearchMoviesProps) {
+export default function SearchMovies() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [totalResults, setTotalResults] = useState(0);
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  
+  useEffect(() => {
+    const searchQuery = localStorage.getItem(SEARCH_QUERY_KEY);
+    if (searchQuery) {
+      setQuery(searchQuery);
+      handleSearch(searchQuery, 1, 20).then(setResponse);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(SEARCH_QUERY_KEY, query);
+  }, [query]);
 
   const setResponse = (response) => {
     const { results, total_pages, total_results } = response;
@@ -65,11 +75,9 @@ export default function SearchMovies({ guestUserId }: SearchMoviesProps) {
       params.append('query', query);
       params.append('page', String(page));
       params.append('pageSize', String(pageSize));
-      // debugger
       const apiUrl = `http://localhost:3001/movies?${params.toString()}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
-      // debugger
       return data;
     } catch (error) {
       return { error: 'An error occurred while fetching data' };

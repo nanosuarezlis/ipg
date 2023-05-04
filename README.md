@@ -12,6 +12,27 @@ To get started, clone this repository and install the dependencies:
 - `npm run build`: Builds the production-ready app.
 - `npm run dev`: Starts the development server and watches for changes.
 
+
+## Docker
+This project includes a Dockerfile that allows you to run the application inside a container. To build the Docker image, run the following command in the root directory of the project:
+
+docker build -t movie-search-app .
+To run the Docker container, use the following command:
+
+docker run -p 3001:3001 movie-search-app
+This will start the server on port 3001 inside the Docker container, which can be accessed from your host machine by visiting http://localhost:3001. Note that the -p 3001:3001 option maps the container's port 3001 to the host machine's port 3001.
+
+If you want to run the container in detached mode, use the -d option:
+
+docker run -d -p 3001:3001 movie-search-app
+This will run the container in the background. To stop the container, run:
+
+docker stop <container-name-or-id>
+You can also remove the container when you're done with it by running:
+
+docker rm <container-name-or-id>
+And that's it! With Docker, you can easily package and run your application in any environment.
+
 ## Architecture
 
 The project is divided into two main layers:
